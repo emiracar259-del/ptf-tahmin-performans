@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PTF Tahmin Performansı</title>
+<meta name="description" content="Türkiye gün öncesi piyasası saatlik PTF tahmin modelinin geçmiş performansı: tahmin ve gerçekleşen fiyat karşılaştırması.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css?v=4">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232a78d6'/%3E%3Cpath d='M18 4 8 18h7l-2 10 11-15h-7z' fill='white'/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div>
+    <p class="eyebrow">Türkiye elektrik piyasası · Gün öncesi piyasası (GÖP)</p>
+    <h1>PTF Tahmin Performansı</h1>
+    <p class="lede">Saatlik Piyasa Takas Fiyatı (PTF) için geliştirdiğim tahmin modellerinin geçmiş sonuçları. Her gün 17.30'da D+2 gününün saatlik PTF tahmini yapılıyor. Bu sayfada yalnızca fiyatı açıklanmış günler yer alıyor.</p>
+  </div>
+  <div class="meta">
+    <span class="pill" id="guncelleme">Güncelleme: —</span>
+    <button class="theme" id="tema" type="button" aria-label="Açık/koyu tema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+  </div>
+</header>
+
+<section class="kpis" id="kpis" aria-label="Özet ölçüler"></section>
+
+<section class="card">
+  <div class="card-head">
+    <div>
+      <h2>Modelin gelişimi</h2>
+      <p class="sub">12 aylık walk-forward test (01.10.2025 – 30.09.2026), saatlik ortalama mutlak hata (TL/MWh). Kısa çubuk daha iyi.</p>
+    </div>
+  </div>
+  <div class="chart-box tall"><canvas id="gelisim" role="img" aria-label="Modellerin 12 aylık ortalama mutlak hatası"></canvas></div>
+</section>
+
+<section class="card">
+  <div class="card-head">
+    <div>
+      <h2>Tahmin ve gerçekleşen PTF</h2>
+      <p class="sub" id="donem-yazi">—</p>
+    </div>
+  </div>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Dönem">
+      <button data-gun="1">Son gün</button>
+      <button data-gun="7" class="on">Son 7 gün</button>
+      <button data-gun="30">Son 30 gün</button>
+      <button data-gun="365">Son 12 ay</button>
+    </div>
+    <div class="dates">
+      <label>Başlangıç <input type="date" id="bas"></label>
+      <label>Bitiş <input type="date" id="bit"></label>
+    </div>
+  </div>
+  <div class="chips" id="chips" role="group" aria-label="Gösterilecek modeller"></div>
+  <div class="chart-box"><canvas id="seri" role="img" aria-label="Seçili dönemde tahmin ve gerçekleşen PTF"></canvas></div>
+  <h3>Seçili dönemde başarı</h3>
+  <div class="table-wrap"><table id="donem-tablo"></table></div>
+</section>
+
+<section class="card">
+  <h2>Tavan ve taban saatlerini yakalama</h2>
+  <p class="sub" id="tavan-yazi">—</p>
+  <p class="sub">Fiyatın azami fiyata (tavan) ya da 0 TL'ye (taban) vurduğu saatlerden kaçının önceden tahmin edildiği. <b>Yakalanan</b>: gerçekte tavan/taban olan ve model tarafından da öyle tahmin edilen saat. <b>Yanlış alarm</b>: model tavan/taban dediği hâlde gerçekleşmeyen saat. Dönem, yukarıdaki seçime göre değişir.</p>
+  <div class="table-wrap"><table id="tavan-tablo"></table></div>
+</section>
+
+<section class="grid2">
+  <section class="card">
+    <h2>Günün saatine göre hata</h2>
+    <p class="sub">Seçili dönem ve modeller için her saatin ortalama mutlak hatası.</p>
+    <div class="chart-box"><canvas id="saat" role="img" aria-label="Saat bazında ortalama mutlak hata"></canvas></div>
+  </section>
+  <section class="card">
+    <h2>Aylık hata</h2>
+    <p class="sub">Ortalama mutlak hata (TL/MWh); her satırın en iyisi koyu.</p>
+    <div class="table-wrap"><table id="aylik" class="compact"></table></div>
+    <p class="sub" style="margin-top:10px">* Ay henüz tamamlanmadı. Ekim 2026'nın ilk 12 günü YD3 ve nb modelleri için geriye dönük doldurulmadı.</p>
+  </section>
+</section>
+
+<section class="card prose">
+  <h2>Nasıl ölçülüyor?</h2>
+  <div class="cols">
+    <div>
+      <h3>Tahmin kurgusu</h3>
+      <p>Model her gün (D günü) <b>17.30'da</b>, o saate kadar yayımlanan verilerle çalışır ve <b>D+2 gününün 24 saatini</b> tek seferde tahmin eder. Örneğin 27 Ekim 17.30'da 29 Ekim'in tahmini üretilir. Sayfadaki her tahmin, ilgili gün için o anda bilinen bilgiyle üretilmiştir.</p>
+      <h3>Test düzeneği</h3>
+      <p>01.10.2025 – 30.09.2026 arası <b>walk-forward</b> testtir: model her gün yalnızca geçmiş veriyle yeniden eğitilip ertesi tahmini üretir; rastgele bölme yoktur. 14.10.2026'dan beri model her gün otomatik olarak canlı çalışıyor; arada kalan günler aynı kodla geriye dönük dolduruldu.</p>
+    </div>
+    <div>
+      <h3>Ölçüler</h3>
+      <ul class="list">
+        <li><b>MAE</b>: saatlik ortalama mutlak hata (TL/MWh).</li>
+        <li><b>Yanlılık</b>: tahmin − gerçekleşen ortalaması. Pozitif değer, modelin fiyatı yüksek tahmin ettiğini gösterir.</li>
+        <li><b>D+1'e göre</b>: tahmin anında bilinen son günün fiyatını aynen tekrarlayan naif tahmine göre hatadaki azalma.</li>
+        <li><b>Saat</b>: ölçünün hesaplandığı saat sayısı.</li>
+      </ul>
+      <h3>Veri kaynakları</h3>
+      <p>EPİAŞ Şeffaflık Platformu, RİTM ve Open-Meteo (81 il, geçmiş hava tahmini). Model, değişkenler ve kod paylaşılmamaktadır.</p>
+    </div>
+  </div>
+  <p class="note">Bu sayfa bir model performans vitrinidir; yatırım veya ticaret tavsiyesi değildir.</p>
+</section>
+
+<footer class="foot">
+  <span>Emirhan Acar · <a href="https://www.linkedin.com/in/emirhan-acar-87893a246">LinkedIn</a></span>
+  <span id="kaynak-not"></span>
+</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="assets/app.js?v=4"></script>
+</body>
+</html>

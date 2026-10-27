@@ -1,0 +1,115 @@
+:root{
+  color-scheme: light;
+  --bg:#f6f6f4; --surface:#fcfcfb; --surface-2:#f0efec; --line:#e2e1dc;
+  --text:#0b0b0b; --text-2:#52514e; --muted:#7a7974;
+  --accent:#2a78d6; --accent-soft:#cde2fb;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
+  --s5:#e87ba4; --s6:#008300; --s7:#6250d6; --s8:#e34948;
+  --bar:#9ec5f4; --bar-best:#2a78d6;
+  --ink:#1f1f1d;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --bg:#121211; --surface:#1a1a19; --surface-2:#232321; --line:#2f2f2c;
+    --text:#f0efec; --text-2:#c3c2b7; --muted:#8e8d86;
+    --accent:#3987e5; --accent-soft:#184f95;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+    --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
+    --bar:#1c5cab; --bar-best:#5598e7;
+    --ink:#f0efec;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg:#121211; --surface:#1a1a19; --surface-2:#232321; --line:#2f2f2c;
+  --text:#f0efec; --text-2:#c3c2b7; --muted:#8e8d86;
+  --accent:#3987e5; --accent-soft:#184f95;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+  --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
+  --bar:#1c5cab; --bar-best:#5598e7;
+  --ink:#f0efec;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:15px/1.55 "IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:32px 16px 48px}
+a{color:var(--accent)}
+h1{font-size:clamp(28px,4vw,38px);line-height:1.15;margin:4px 0 10px;letter-spacing:-.01em;font-weight:600}
+h2{font-size:18px;margin:0 0 4px;font-weight:600}
+h3{font-size:14px;margin:20px 0 8px;font-weight:600;color:var(--text-2)}
+.eyebrow{margin:0;color:var(--muted);font-size:13px;letter-spacing:.02em}
+.lede{margin:0;max-width:680px;color:var(--text-2)}
+.sub{margin:0 0 14px;color:var(--muted);font-size:13.5px}
+
+.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:24px}
+.meta{display:flex;gap:8px;align-items:center;flex-shrink:0}
+.pill{font:500 12px "IBM Plex Mono",ui-monospace,monospace;color:var(--text-2);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 10px;white-space:nowrap}
+.theme{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--text-2);cursor:pointer;display:grid;place-items:center;padding:0}
+.theme svg{width:16px;height:16px}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .k{font-size:12.5px;color:var(--muted);margin:0 0 6px}
+.kpi .v{font:500 28px/1.1 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:-.02em}
+.kpi .v small{font-size:13px;color:var(--muted);font-family:"IBM Plex Sans",sans-serif;margin-left:4px}
+.kpi .d{font-size:12.5px;color:var(--text-2);margin-top:6px}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px;min-width:0}
+.card-head{display:flex;justify-content:space-between;gap:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid2 .card{margin-bottom:16px}
+
+.chart-box{position:relative;height:340px}
+.chart-box.tall{height:330px}
+
+.controls{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin-bottom:12px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--surface-2)}
+.seg button{border:0;background:transparent;color:var(--text-2);padding:7px 12px;font:inherit;font-size:13px;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.on{background:var(--surface);color:var(--text);font-weight:600}
+.dates{display:flex;gap:10px;flex-wrap:wrap}
+.dates label{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.dates input{font:inherit;font-size:13px;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:5px 8px}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--surface);color:var(--text-2);border-radius:999px;padding:5px 11px 5px 9px;font:inherit;font-size:13px;cursor:pointer}
+.chip .sw{width:10px;height:10px;border-radius:3px;background:var(--c);opacity:.35}
+.chip.on{color:var(--text);border-color:var(--text-2)}
+.chip.on .sw{opacity:1}
+.chip.fixed{cursor:default}
+.chip.fixed .sw{background:var(--ink);opacity:1;height:3px;border-radius:2px;width:14px}
+
+.table-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font-weight:500;color:var(--muted);font-size:12.5px}
+td.num{font-family:"IBM Plex Mono",ui-monospace,monospace}
+td .sw{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:8px;vertical-align:0}
+tr.hl td{background:var(--surface-2)}
+td.best{font-weight:600;color:var(--text)}
+th.grp{text-align:center;color:var(--text-2);border-bottom:1px solid var(--line)}
+td.na{color:var(--muted)}
+table.compact th,table.compact td{padding:6px 7px;font-size:12.5px}
+.desc{color:var(--muted);font-size:12px;white-space:normal;text-align:left;max-width:340px}
+
+.prose p{color:var(--text-2);margin:0 0 10px;max-width:62ch}
+.prose .cols{display:grid;grid-template-columns:1fr 1fr;gap:8px 32px}
+.prose .list{margin:0 0 10px;padding-left:18px;color:var(--text-2);max-width:62ch}
+.prose .list li{margin-bottom:6px}
+.note{font-size:12.5px;color:var(--muted)!important;margin-top:12px!important}
+.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;color:var(--muted);font-size:12.5px;padding:8px 2px}
+
+@media (max-width:860px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .grid2,.prose .cols{grid-template-columns:1fr}
+}
+@media (max-width:720px){ .dcol{display:none} }
+@media (max-width:520px){
+  .top{flex-direction:column}
+  .chart-box{height:280px}
+  .kpi .v{font-size:23px}
+  .card{padding:16px}
+}
